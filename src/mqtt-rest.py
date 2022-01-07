@@ -19,12 +19,11 @@ def on_message(client, userdata, msg):
     
     try:
         payload = json.loads(msg.payload)
-
         url = os.environ['API_URL']
 
         logging.info(msg.topic+" "+str(msg.payload))
 
-        res = requests.post(url, payload, headers={'Content-Type': 'application/json'})
+        res = requests.post(url, json.dumps(payload), headers={'Content-Type': 'application/json'})
         
         logging.info("Response: "+str(res.text))
 
