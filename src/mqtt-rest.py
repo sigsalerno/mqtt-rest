@@ -38,6 +38,15 @@ if __name__ == "__main__":
     client.on_message = on_message
 
     
+    if 'MQTT_PASSWORD' in os.environ:
+        password = os.environ['MQTT_PASSWORD']
+    else:
+        password = None 
+
+    if 'MQTT_USERNAME' in os.environ:
+        username = os.environ['MQTT_USERNAME']
+        client.username_pw_set(username, password)
+        
     client.connect(os.environ['MQTT_SERVER'], int(os.environ['MQTT_SERVER_PORT']), 60)
 
     # Blocking call that processes network traffic, dispatches callbacks and
