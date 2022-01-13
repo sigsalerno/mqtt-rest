@@ -23,7 +23,7 @@ def on_message(client, userdata, msg):
 
         logging.info(msg.topic+" "+str(msg.payload))
 
-        res = requests.post(url, json.dumps(payload), headers={'Content-Type': 'application/json'})
+        res = requests.post(url, json.dumps({'data':payload}), headers={'Content-Type': 'application/json'})
         
         logging.info("Response: "+str(res.text))
 
@@ -37,6 +37,8 @@ if __name__ == "__main__":
     client.on_connect = on_connect
     client.on_message = on_message
 
+    if 'MQTT_CA_CERTS' in os.environ:
+        client.tls_set(ca_certs=os.environ['MQTT_CA_CERTS'])
     
     if 'MQTT_PASSWORD' in os.environ:
         password = os.environ['MQTT_PASSWORD']
